@@ -2,6 +2,8 @@ from local_translator import translate
 
 def printBackpack(Backpack,arg):
     try:
+        if Backpack[arg][-1] in ["]","}",")"]:
+            return(translate(str(Backpack[arg][:-5])))+str(Backpack[arg][-5:])
         return(translate(str(Backpack[arg])))
     except:
         pass

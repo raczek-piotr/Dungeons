@@ -1,29 +1,23 @@
+from random import randint
+from local_zero3 import zero3
+
 ilist = []
-def items_init(path, poziom):
+def items_init(path, depth):
     global ilist
-    ilist = [["kastet [2]"], ["sling {2}"], ["futro (1)"]]
-    for _ in range(9):
-        ilist[0].append("nóż [3]")
-    for _ in range(7):
-        ilist[0].append("sztylet [4]")
-    for _ in range(6):
-        ilist[0].append("mały miecz [5]")
-    i = poziom
-    for _ in range(i-4):
-        ilist[0].append("mace [7]")
-        ilist[1].append("bow {3}")
-    for _ in range(i-9):
-        ilist[0].append("spear [10]")
-        ilist[1].append("crosbow {5}")
-        ilist[2].append("cloack (2)")
-    for _ in range(i-14):
-        ilist[0].append("sword [14]")
-        ilist[2].append("cloack (3)")
-    for _ in range(i-19):
-        ilist[0].append("glaive [17]")
-        ilist[1].append("manshimex {8}")
-        ilist[2].append("cloack (4)")
-    return(len(ilist[0]), len(ilist[1]), len(ilist[2]))
+    with open(str(path) + str(depth) +"_depth_items.txt") as I:
+        ilist = I.read().split("\n")
+    ilist.pop(-1)
+    for i in range(3):
+       ilist[i] = ilist[i].split(";")
+    print(ilist)
+    j = []
+    for i in range(3,len(ilist)-1):
+        ilist[i] = ilist[i].split(" ")
+        if int(ilist[i][3]) > randint(0,99):
+            j.append(ilist[i][0]+zero3(str(randint(int(ilist[i][1]),int(ilist[i][2])))))
+    i = ilist[-1].split(" ")
+    print(j)
+    return([[len(ilist[0]), len(ilist[1]), len(ilist[2])], j, int(i[0]), int(i[1]), int(i[2]), int(i[3])])
 
 
 def weapon(i):

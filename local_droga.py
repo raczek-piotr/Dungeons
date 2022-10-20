@@ -1,7 +1,5 @@
 from galwana import galwana
-#from local_pokoj import makepokoj
-from random import choice, randint
-#from math import abs
+from random import randint
 
 def makedroga(sizey,sizex,sciana,podloga,jpodloga,drzwi,zdrzwi,items,ile = 25,minilosc = 10):
     ile -= 1
@@ -19,7 +17,6 @@ def makedroga(sizey,sizex,sciana,podloga,jpodloga,drzwi,zdrzwi,items,ile = 25,mi
             if abs((i[0]+i[2])-(y+sy))<i[2]+sy+1 and abs((i[1]+i[3])-(x+sx))<i[3]+sx+1:
                 can = False
         if can:
-            
             pokoje.append([y,x,sy,sx,0])
             continue
     for i in range(len(pokoje)):

@@ -15,7 +15,7 @@ from random import choice
 from pomoc import *
 from local import *
 from local_pokoj import *
-from local_wrog import *
+from local_enemies import *#enemies_init, testenemies, enemies_heads, enemies_attack
 from local_wynik import *
 from local_droga import *
 from local_translator import translate
@@ -108,57 +108,22 @@ def walka(y, x, atak):
     atak += randint(randint((1-atak)//2, 0), 
                     randint(0, (atak-1)//2))
     try:
-        i = int(rmap[y][x][1:4])
+        hp = int(rmap[y][x][1:4])
     except:
-        i = 1
-    if rmap[y][x][0] == "s":
+        hp = 1
+    k = enemies_heads(rmap[y][x][0])
+    if k != "-":
         if randint(0, 1) == 0:
-            if i-atak<=0:
+            if hp-atak<=0:
                 rmap[y][x] = rmap[y][x][4:]
                 vmap[y][x] = rmap[y][x]
-                pd += 1
+                pd += enemies_xp(k)
                 echo = "Zabiłeś szczura:"
             else:
-                rmap[y][x] = rmap[y][x][0] + zero3(i-atak) + rmap[y][x][4:]
-                echo = "Zraniłeś szczura " + str(atak) + " zostało mu " + str(i-atak) + ":"
+                rmap[y][x] = rmap[y][x][0] + zero3(hp-atak) + rmap[y][x][4:]
+                echo = "Zraniłeś szczura " + str(atak) + " zostało mu " + str(hp-atak) + ":"
         else:
             echo = "Spudłowałeś w szczura:"
-    elif rmap[y][x][0] == "g":
-        if randint(0, 1) == 0:
-            if i-atak<=0:
-                rmap[y][x] = rmap[y][x][4:]
-                vmap[y][x] = rmap[y][x]
-                pd += 4
-                echo = "Zabiłeś gnolla:"
-            else:
-                rmap[y][x] = rmap[y][x][0] + zero3(i-atak) + rmap[y][x][4:]
-                echo = "Zraniłeś gnolla " + str(atak) + " zostało mu " + str(i-atak) + ":"
-        else:
-            echo = "Spudłowałeś w gnolla:"
-    elif rmap[y][x][0] == "b":
-        if randint(0, 1) == 0:
-            if i-atak<=0:
-                pd += 9
-                rmap[y][x] = rmap[y][x][4:]
-                vmap[y][x] = rmap[y][x]
-                echo = "Zabiłeś ogra:"
-            else:
-                rmap[y][x] = rmap[y][x][0] + zero3(i-atak) + rmap[y][x][4:]
-                echo = "Zraniłeś ogra " + str(atak) + " zostało mu " + str(i-atak) + ":"
-        else:
-            echo = "Spudłowałeś w ogra:"
-    elif rmap[y][x][0] == "i":
-        if randint(0, 1) == 0:
-            if i-atak<=0:
-                rmap[y][x] = rmap[y][x][4:]
-                vmap[y][x] = rmap[y][x]
-                pd += 16
-                echo = "Zabiłeś impa:"
-            else:
-                rmap[y][x] = rmap[y][x][0] + zero3(i-atak) + rmap[y][x][4:]
-                echo = "Zraniłeś impa " + str(atak) + " zostało mu " + str(i-atak) + ":"
-        else:
-            echo = "Spudłowałeś w impa:"
 
 def wybierzpostac(Backpack, mhp, hp, pd, vision, zbroja, lw, poziom, gold, pochodnia, pochotime, licznik, echo, wasattackby, playerdata, name, atak, time, Baner):
     pd = 0
@@ -169,31 +134,17 @@ def wybierzpostac(Backpack, mhp, hp, pd, vision, zbroja, lw, poziom, gold, pocho
     pochodnia = 0
     pochotime = 0
     time = 0
-    Baner = [0, 0, 5]
+    Baner = [0, 0, 8]
     print("""                               JASKINIE IMPÓW
                                Wybierz postać
     c - człowiek
-    n - neromond
     j - jaguar""")
     i = takein()
     if i == "j":
         mhp = 15
         vision = 2
         playerdata = ["Jaguar", "Łowca"]
-        Backpack = ["sztylet [11]", "ulepszenie"]
-    elif i == "n":
-        mhp = 25
-        playerdata = ["Neromond"]
-        print("""
-    w - wojownik
-    a - alchemik""")
-        i = takein()
-        if i == "a":
-            playerdata.append("Alchemik")
-            Backpack = ["nóż [3]", "MIXTURE", "MIXTURE", "MIXTURE"]
-        else:
-            playerdata.append("Wojownik")
-            Backpack = ["sztylet [4]"]
+        Backpack = ["DAGGER [11]"]
     else:
         mhp = 20
         playerdata = ["Człowiek"]
@@ -201,22 +152,23 @@ def wybierzpostac(Backpack, mhp, hp, pd, vision, zbroja, lw, poziom, gold, pocho
     w - wojownik
     l - łucznik
     a - alchemik
-    n - nożownik""")
+    r - rozbójnik""")
         i = takein()
-        if i == "n":
-            playerdata.append("Nożownik")
-            Backpack = ["nóż [3]", "nóż [3]", "nóż [3]"]
+        if i == "r":
+            playerdata.append("Rozbójnik")
+            Backpack = ["KNIFE [03]", "SLING {02}"]
+            Baner = [Baner[0], 2, 20]
         elif i == "a":
             playerdata.append("Alchemik")
-            Backpack = ["nóż [3]", "TORCH"]
-            Baner[0] = 8
+            Backpack = ["KNIFE [03]"]
+            Baner[0] = 1
         elif i == "l":
             playerdata.append("Łucznik")
-            Backpack = ["sztylet [4]", "łuk {3}", "TORCH"]
+            Backpack = ["DAGGER [04]", "BOW {03}"]
             Baner = [Baner[0], 3, 35]
         else:
             playerdata.append("Wojownik")
-            Backpack = ["mały miecz [5]"]
+            Backpack = ["SWORD [05]"]
     Backpack.append("TORCH")
     atak = 1
 
@@ -231,39 +183,10 @@ def wybierzpostac(Backpack, mhp, hp, pd, vision, zbroja, lw, poziom, gold, pocho
 
 def makemap():
     global rmap, vmap, omap, poziom, sizey, sizex, ilist, py, px, echo
-    ilist = items_init(path, poziom)
+    ilist, j, sizey, sizex, maxp, minp = items_init(path, poziom)
+    enemies_init(path, poziom)
     if poziom % 5 != 6:
-        j=["$"+zero3(randint(1, 100)),
-           "$"+zero3(randint(1, 100)),
-           "$"+zero3(randint(1, 100)),
-           "$"+zero3(randint(1, 100)),
-           "$"+zero3(randint(1, 100)),
-           "]"+zero3(randint(0, ilist[0]-1)),
-           "}"+zero3(randint(0, ilist[1]-1)),
-           "~"+zero3(randint(0, 1)),
-           "-"+zero3(randint(10, 30)),
-           "!"+zero3(randint(1, 5))]
-        if poziom >= 5:
-            j.append(")"+zero3(randint(0, ilist[2])-1))
-        for _ in range(5):
-            j.pop(randint(0,len(j)-1))
-        if poziom < 5:
-            i=["s008", "s008"]
-        elif poziom < 10:
-            i=["g016", "g016"]
-        elif poziom < 15:
-            i=["b024", "b024"]
-        elif poziom < 20:
-            i=["b024", "i032"]
-        else:
-            i=["i032", "i032"]
-        for _ in range(5):
-            j.append(i[0])
-            j.append(i[1])
-        sizey = 32
-        sizex = 32
-        py, px = sizey//2, sizex//2
-        rmap, py, px = makedroga(sizey, sizex, "#", " ", "_", "+", "=", j, 25, 10)
+        rmap, py, px = makedroga(sizey, sizex, "#", " ", "_", "+", "=", j, maxp, minp)
     else:
         with open(path + ".mapa"+str(poziom)+".pyg") as mapa:
             rmap = mapa.readlines()
@@ -466,7 +389,7 @@ while True:
                     continue
                 i = [(py+npy)%sizey, (px+npx)%sizex]
                 if pm != "11":
-                    while rmap[i[0]][i[1]] == " " or rmap[i[0]][i[1]] == "." or rmap[i[0]][i[1]] == ", " or rmap[i[0]][i[1]] == "_" or rmap[i[0]][i[1]] == "]" or rmap[i[0]][i[1]] == ")" or rmap[i[0]][i[1]] == "~" or rmap[i[0]][i[1]] == "$" or rmap[i[0]][i[1]] == ">" or rmap[i[0]][i[1]] == "<":
+                    while rmap[i[0]][i[1]][0] in [".",","," ","_","]","}",")","~","-","!","?"]:
                         i = [(i[0]+npy)%sizey, (i[1]+npx)%sizex]
                 if rmap[i[0]][i[1]] == "#" or rmap[i[0]][i[1]] == "+":
                     i = [(i[0]-npy)%sizey, (i[1]-npx)%sizex] # cofanie o 1
@@ -481,18 +404,10 @@ while True:
                             else:
                                 rmap[y][x] = "_<"
                         else:
-                            if rmap[y][x][0] == "s" or rmap[y][x][0] == "g" or rmap[y][x][0] == "b" or rmap[y][x][0] == "i":
-                                if rmap[y][x][0] == "s":
-                                    pd += 1
-                                elif rmap[y][x][0] == "g":
-                                    pd += 4
-                                elif rmap[y][x][0] == "b":
-                                    pd += 9
-                                elif rmap[y][x][0] == "i":
-                                    pd += 16
-                                rmap[y][x] = "_."
-                            else:
-                                rmap[y][x] = "_."
+                            k = enemies_heads(rmap[y][x][0])
+                            if k != "-":
+                                pd += enemies_xp(k)
+                            rmap[y][x] = "_."
                             if omap[y][x] == "@":
                                 hp = 0
                         vmap[y][x] = rmap[y][x]
@@ -503,7 +418,7 @@ while True:
         elif imput == "0":
             if Baner[2] > 0:
                 out()
-                print("Wybierz kierunek gdzie (strzelisz/rzucisz) pocisk:")
+                print("Wybierz kierunek gdzie strzelisz (tylko we wrogów):")
                 try:
                     pm = pmover(str(int(takein())))
                     npy = int(pm[0])-1
@@ -513,11 +428,11 @@ while True:
                     continue
                 i = [(py+npy)%sizey, (px+npx)%sizex]
                 if pm != "11":
-                    while rmap[i[0]][i[1]] == " " or rmap[i[0]][i[1]] == "." or rmap[i[0]][i[1]] == ", " or rmap[i[0]][i[1]] == "_" or rmap[i[0]][i[1]] == "]" or rmap[i[0]][i[1]] == ")" or rmap[i[0]][i[1]] == "~" or rmap[i[0]][i[1]] == "$" or rmap[i[0]][i[1]] == ">" or rmap[i[0]][i[1]] == "<":
+                    while rmap[i[0]][i[1]][0] in [".",","," ","_","]","}",")","~","-","!","?"]:
                         i = [(i[0]+npy)%sizey, (i[1]+npx)%sizex]
                 if rmap[i[0]][i[1]] == "#" or rmap[i[0]][i[1]] == "+":
                     i = [(i[0]-npy)%sizey, (i[1]-npx)%sizex] # cofanie o 1
-                if rmap[i[0]][i[1]][0] == "s" or rmap[i[0]][i[1]][0] == "g" or rmap[i[0]][i[1]][0] == "b" or rmap[i[0]][i[1]][0] == "i":
+                if enemies_heads(rmap[i[0]][i[1]][0]) != "-":
                     walka(i[0], i[1], Baner[1])
                     Baner[2] -= 1
             else:
@@ -546,7 +461,7 @@ while True:
         elif imput == "r":
             moved = 0
             if hp < mhp:
-                if testwrog(px, py, sizex, sizey, rmap) == 9:
+                if testenemies(px, py, sizex, sizey, rmap) == 9:
                     pochotime -= 10
                     hp += 1
                     time += 10
@@ -557,7 +472,7 @@ while True:
                 echo = "Nie musisz odpoczywać:"
         elif imput == "q":
             moved = 0
-            if testwrog(px, py, sizex, sizey, rmap) == 9:
+            if testenemies(px, py, sizex, sizey, rmap) == 9:
                 if (pochotime < 25 or  pochodnia == 0) and rmap[py][px] != ".":
                     echo = "Posiadasz za mało światła:"
                 else:
@@ -611,9 +526,9 @@ while True:
         time += 1
         if pochodnia == 1:
             pochotime -= 1
-            if pochotime < 1:
+            if pochotime < 0:
                 pochodnia = 0
-        while pd >= lw * (5 + 5 * lw):
+        while pd >= lw * (lw + 4):
             lw += 1
             mhp += 5
             hp += 5
@@ -622,22 +537,11 @@ while True:
             for x in range(-1, 2):
                 bonus = 0
                 i = [(py+y) % sizey, (px+x) % sizex]
-                if rmap[i[0]][i[1]][0] == "s":
+                k = enemies_heads(rmap[i[0]][i[1]][0])
+                if k != "-":
                     if randint(0, 1) == 0:
-                        wasattackby += "s"
-                        bonus = 2
-                elif rmap[i[0]][i[1]][0] == "g":
-                    if randint(0, 1) == 0:
-                        wasattackby += "g"
-                        bonus = 4
-                elif rmap[i[0]][i[1]][0] == "b":
-                    if randint(0, 1) == 0:
-                        wasattackby += "b"
-                        bonus = 6
-                elif rmap[i[0]][i[1]][0] == "i":
-                    if randint(0, 1) == 0:
-                        wasattackby += "i"
-                        bonus = 8
+                        wasattackby += rmap[i[0]][i[1]][0]
+                        bonus = enemies_attack(k)
                 if bonus != 0:
                     bonus += randint(randint((1-bonus)//2, 0), 
                                      randint(0, (bonus-1)//2))
@@ -647,19 +551,13 @@ while True:
             for x in range(-2, 3):
                 if y > 1 or y < -1 or x > 1 or x < -1:
                     i = [(py+y) % sizey, (px+x) % sizex]
-                    if rmap[i[0]][i[1]][0] == "s" or rmap[i[0]][i[1]][0] == "g" or rmap[i[0]][i[1]][0] == "b" or rmap[i[0]][i[1]][0] == "i":
+                    if enemies_heads(rmap[i[0]][i[1]][0]) != "-":
                         i = [i[0], i[1], (i[0]+randint(-1, 1)) % sizey, (i[1]+randint(-1, 1)) % sizex, rmap[i[0]][i[1]][:4], rmap[i[0]][i[1]][4:]]
-                        #try:
-                        #    i[5] = int(rmap[i[0]][i[1]][2:])
-                        #except:
-                        #    pass
                         # i = [sy, sx, ny, nx, wrog, s.teren]
                         if rmap[i[2]][i[3]][0] == " " or rmap[i[2]][i[3]][0] == "." or rmap[i[2]][i[3]][0] == ", ":
                             rmap[i[2]][i[3]] = i[4] + rmap[i[2]][i[3]]
                             if i[5] != " ":
                                 vmap[i[2]][i[3]] = rmap[i[2]][i[3]]
-                            #if i[5] == "":
-                            #    i[5] = "o"
                             rmap[i[0]][i[1]] = i[5]
                             vmap[i[0]][i[1]] = rmap[i[0]][i[1]]
                         elif rmap[i[0]][i[1]][1] == " " or rmap[i[0]][i[1]][1] == "_":
