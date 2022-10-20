@@ -3,7 +3,8 @@ def enemies_init(path,depth):
     global heads, attacks, xp
     with open(str(path) + str(depth) +"_depth_enemies.txt") as I:
         elist = I.read().split("\n")
-    elist.pop(-1)
+    if elist[-1] == "":
+        elist.pop(-1)
     for i in range(len(elist)):
         elist[i] = elist[i].split(" ")
     heads = []
@@ -31,7 +32,7 @@ def enemies_xp(id):
 def enemies_head(id):
     global heads
     return heads[id]
-def testenemies(px,py,sizex,sizey,rmap):
+def test_enemies(px,py,sizex,sizey,rmap):
     global heads
     i = [(py+2)%sizey,(px+2)%sizex,0]
     for y in range(i[0]-3,i[0]):

@@ -6,7 +6,10 @@ def items_init(path, depth):
     global ilist
     with open(str(path) + str(depth) +"_depth_items.txt") as I:
         ilist = I.read().split("\n")
-    ilist.pop(-1)
+    print(ilist)
+    if ilist[-1] == "":
+        ilist.pop(-1)
+    print(ilist)
     for i in range(3):
        ilist[i] = ilist[i].split(";")
     print(ilist)
