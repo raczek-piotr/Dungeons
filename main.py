@@ -15,13 +15,13 @@ from random import choice
 from pomoc import *
 from local import *
 from local_pokoj import *
-from local_enemies import *#enemies_init, testenemies, enemies_heads, enemies_attack
+from local_items import items_init
+from local_enemies import *#enemies_init, test_enemies, enemies_heads, enemies_attack
 from local_wynik import *
 from local_droga import *
 from local_translator import translate
 from local_zero3 import zero3
 from local_terrain import terrain
-from local_items import items_init
 
 path = ''
 def takein():
@@ -41,8 +41,7 @@ def sort():
         Backpack[i] = Backpack[i][::-1]
     Backpack = Backpack[::-1]
     
-def wezbron(miotacz):
-    global atak, zbroja, echo
+def wezbron():
     atak = 1
     zbroja = 0
     miotacz = 1
@@ -68,62 +67,28 @@ def wezbron(miotacz):
                 j = int(i[-2])
             if j > zbroja:
                 zbroja = j
-    return(miotacz)
-    
-def zmienbron(miotacz):
-    global atak, zbroja, echo
-    for i in Backpack:
-        if i[-1] == "]":
-            try:
-                j = int(i[-3]+i[-2])
-            except:
-                j = int(i[-2])
-            if int(j) == atak:
-                break
-    else:
-        atak = 1
-    for i in Backpack:
-        if i[-1] == "}":
-            try:
-                j = int(i[-3]+i[-2])
-            except:
-                j = int(i[-2])
-            if int(j) == miotacz:
-                break
-    else:
-        miotacz = 1
-    for i in Backpack:
-        if i[-1] == ")":
-            try:
-                j = int(i[-3]+i[-2])
-            except:
-                j = int(i[-2])
-            if int(j) == zbroja:
-                break
-    else:
-        zbroja = 0
+    return(atak, miotacz, zbroja, echo)
 
 def walka(y, x, atak):
     global rmap, vmap, py, px, npy, npx, echo, pd
     atak += randint(randint((1-atak)//2, 0), 
                     randint(0, (atak-1)//2))
-    try:
-        hp = int(rmap[y][x][1:4])
-    except:
-        hp = 1
+    hp = int(rmap[y][x][1:4])
     k = enemies_heads(rmap[y][x][0])
     if k != "-":
-        if randint(0, 1) == 0:
+        if randint(0, 99) < 60:
             if hp-atak<=0:
+                if rmap[y][x][0] == "B":
+                    open_doors(rmap,vmap)
                 rmap[y][x] = rmap[y][x][4:]
                 vmap[y][x] = rmap[y][x]
                 pd += enemies_xp(k)
-                echo = "Zabiłeś szczura:"
+                echo = translate("YOU KILL A MONSTER")
             else:
                 rmap[y][x] = rmap[y][x][0] + zero3(hp-atak) + rmap[y][x][4:]
-                echo = "Zraniłeś szczura " + str(atak) + " zostało mu " + str(hp-atak) + ":"
+                echo = translate("YOU HIT A MONSTER") + " | " + str(atak) + " | " + str(hp-atak) + " |"
         else:
-            echo = "Spudłowałeś w szczura:"
+            echo = translate("YOU MISS A MONSTER")
 
 def wybierzpostac(Backpack, mhp, hp, pd, vision, zbroja, lw, poziom, gold, pochodnia, pochotime, licznik, echo, wasattackby, playerdata, name, atak, time, Baner):
     pd = 0
@@ -258,12 +223,13 @@ px = 0
 poziom = 1
 Backpack, mhp, hp, pd, vision, zbroja, lw, poziom, gold, pochodnia, pochotime, licznik, echo, wasattackby, playerdata, name, atak, time, Baner = wybierzpostac(Backpack, mhp, hp, pd, vision, zbroja, lw, poziom, gold, pochodnia, pochotime, licznik, echo, wasattackby, playerdata, name, atak, time, Baner)
 sort()
-Baner[1] = wezbron(Baner[1])
+atak, Baner[1], zbroja, echo = wezbron()
 makemap()
 npy = py
 npx = px
 printwynik(path)
 rmap, vmap = testpokoj(rmap, vmap, [py, px])
+tlist = [".",","," ","_","]","}",")","~","-","!","?"]
 while True:
     out()
     #     -----move_p-----
@@ -273,7 +239,7 @@ while True:
     pm = pmover(imput)
     if pm == "q":
         if imput == "i":
-            Baner[1] = wezbron(Baner[1])
+            atak, Baner[1], zbroja, echo = wezbron()
             echo = "Wziąłeś najlepszą broń i zbroję jaką masz!:"
         elif imput == "u":
             print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
@@ -292,44 +258,6 @@ while True:
                         pochodnia = 1
                         pochotime = 200
                         echo = "Zapaliłeś "+ translate(i,1) + ", będzie ona świecić przez 200 tur:"
-                    elif i == "ulepszenie":
-                        print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
-                        for i in range(len(Backpack)):
-                            print(str(i+1)+":", printBackpack(Backpack, i))
-                        print("Którą rzecz ulepszyć (tylko broń) ?:")
-                        i = ["ulepszenie"]
-                        i.append(int(takein())-1)
-                        if i[1] >= 0 and i[1] < len(Backpack):
-                            i[1] = Backpack.pop(i[1])
-                            if i[1][-1] == "]" or i[1][-1] == "}":
-                                try:
-                                    i[1] = i[1][:-3] + str(int(i[1][-3]+i[1][-2])+1) + i[1][-1]
-                                except:
-                                    i[1] = i[1][:-2] + str(int(i[1][-2])+1) + i[1][-1]
-                                Backpack.append(i[1])
-                                i = [atak, Baner[1], zbroja]
-                                atak += 1
-                                zbroja += 1
-                                Baner[1] += 1
-                                Baner[1] = zmienbron(Baner[1])
-                                if atak == 1:
-                                    atak = i[0]
-                                    Baner[1] = zmienbron(Baner[1])
-                                if Baner[1] == 1:
-                                    zbroja = i[1]
-                                    Baner[1] = zmienbron(Baner[1])
-                                if zbroja == 0:
-                                    zbroja = i[2]
-                                    Baner[1] = zmienbron(Baner[1])
-                                
-                            else:
-                                Backpack.append(i[0])
-                                Backpack.append(i[1])
-                                echo = "Tego nie ulepszysz:"
-                        else:
-                            Backpack.append(i[0])
-                            Backpack.append(i[1])
-                        echo = ":"
                     else:
                         Backpack.append(i)
                         echo = "Tego nie umiesz wypić/urzyć/zapalić/przeczytać:"
@@ -344,7 +272,7 @@ while True:
             print("Rzecz którą chcesz zostawić (przestanie istnieć!):")
             try:
                 i = Backpack.pop(int(takein())-1)
-                zmienbron()
+                atak, Baner[1], zbroja, echo = wezbron()
                 echo = "Zostawiłeś '"+ i + "':"
             except:
                 moved = 0
@@ -369,7 +297,7 @@ while True:
                 print(str(j+1)+":", printBackpack(Backpack, j))
             try:
                 i.append(Backpack.pop(int(takein())-1))
-                zmienbron()
+                atak, Baner[1], zbroja, echo = wezbron()
                 echo = "Rzuciłeś '"+ i[2] + "':"
                 if i[2][-1] == "]":
                     if rmap[i[0]][i[1]][0] == "s" or rmap[i[0]][i[1]][0] == "g" or rmap[i[0]][i[1]][0] == "b" or rmap[i[0]][i[1]][0] == "i":
@@ -389,7 +317,7 @@ while True:
                     continue
                 i = [(py+npy)%sizey, (px+npx)%sizex]
                 if pm != "11":
-                    while rmap[i[0]][i[1]][0] in [".",","," ","_","]","}",")","~","-","!","?"]:
+                    while rmap[i[0]][i[1]][0] in tlist:
                         i = [(i[0]+npy)%sizey, (i[1]+npx)%sizex]
                 if rmap[i[0]][i[1]] == "#" or rmap[i[0]][i[1]] == "+":
                     i = [(i[0]-npy)%sizey, (i[1]-npx)%sizex] # cofanie o 1
@@ -398,6 +326,8 @@ while True:
                     for x in range(i[1]-3, i[1]):
                         if rmap[y][x] == "#":
                             rmap[y][x] = "_:"
+                        elif rmap[y][x][0] == "B":
+                            rmap[y][x] = rmap[y][x][0] + zero3(int(rmap[y][x][1:4])//2) + rmap[y][x][4:]
                         elif ">" in rmap[y][x] or "<" in rmap[y][x]:
                             if ">" in rmap[y][x]:
                                 rmap[y][x] = "_>"
@@ -428,7 +358,7 @@ while True:
                     continue
                 i = [(py+npy)%sizey, (px+npx)%sizex]
                 if pm != "11":
-                    while rmap[i[0]][i[1]][0] in [".",","," ","_","]","}",")","~","-","!","?"]:
+                    while rmap[i[0]][i[1]][0] in tlist:
                         i = [(i[0]+npy)%sizey, (i[1]+npx)%sizex]
                 if rmap[i[0]][i[1]] == "#" or rmap[i[0]][i[1]] == "+":
                     i = [(i[0]-npy)%sizey, (i[1]-npx)%sizex] # cofanie o 1
@@ -461,7 +391,7 @@ while True:
         elif imput == "r":
             moved = 0
             if hp < mhp:
-                if testenemies(px, py, sizex, sizey, rmap) == 9:
+                if test_enemies(px, py, sizex, sizey, rmap) == 9:
                     pochotime -= 10
                     hp += 1
                     time += 10
@@ -472,7 +402,7 @@ while True:
                 echo = "Nie musisz odpoczywać:"
         elif imput == "q":
             moved = 0
-            if testenemies(px, py, sizex, sizey, rmap) == 9:
+            if test_enemies(px, py, sizex, sizey, rmap) == 9:
                 if (pochotime < 25 or  pochodnia == 0) and rmap[py][px] != ".":
                     echo = "Posiadasz za mało światła:"
                 else:

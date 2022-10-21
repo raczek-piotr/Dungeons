@@ -1,6 +1,8 @@
 from galwana import galwana
 from random import randint
 
+from local_enemies import enemies_heads
+
 def makedroga(sizey,sizex,sciana,podloga,jpodloga,drzwi,zdrzwi,items,ile = 25,minilosc = 10):
     ile -= 1
     mmap = [[sciana for _ in range(sizex)] for _ in range(sizey)]
@@ -42,7 +44,10 @@ def makedroga(sizey,sizex,sciana,podloga,jpodloga,drzwi,zdrzwi,items,ile = 25,mi
             i = randint(1,len(pokoje)-2)
         mmap[pokoje[i][0]+randint(1,pokoje[i][2]-1)][pokoje[i][1]+randint(1,pokoje[i][3]-1)] = jpodloga+k+"."
         print(jpodloga+k+".",end = "| ")
-    mmap[pokoje[-1][0]+pokoje[-1][2]//2][pokoje[-1][1]+pokoje[-1][3]//2] = "_>."
+    if enemies_heads("B") != "-":
+        mmap[pokoje[-1][0]+pokoje[-1][2]//2][pokoje[-1][1]+pokoje[-1][3]//2] = "_=>."
+    else:
+        mmap[pokoje[-1][0]+pokoje[-1][2]//2][pokoje[-1][1]+pokoje[-1][3]//2] = "_>."
     print(len(pokoje),pokoje[0][0]+pokoje[0][2]//2,pokoje[0][1]+pokoje[0][3]//2)
     return(mmap,pokoje[0][0]+pokoje[0][2]//2,pokoje[0][1]+pokoje[0][3]//2)
         #rmap[i[0]+randint(1-sy,sy-1)][i[1]+randint(1-sx,sx-1)] = item
@@ -130,6 +135,14 @@ def polacz(mmap,sizey,sizex,pokoje,l):
             for j in range(sizex):
                 if mmap[i][j] == "d":
                     mmap[i][j] = " "
-    
     return(mmap)
 
+def open_doors(rmap,vmap):
+    for y in range(len(rmap)):
+        for x in range(len(rmap[0])):
+            if rmap[y][x][0] == "=":
+                rmap[y][x] = rmap[y][x][1:]
+                vmap[y][x] = rmap[y][x]
+            else:
+                if len(rmap[y][x]) > 1 and rmap[y][x][1] == "=":
+                    rmap[y][x] = rmap[y][x][0] + rmap[y][x][2:]

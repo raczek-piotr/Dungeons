@@ -146,6 +146,8 @@ def terrain(rmap, vmap, p, np, gold, baner, backpack, direction):
             return f_torch(rmap, vmap, p, np, gold, baner, backpack, direction)
         case "?":
             return f_mixture(rmap, vmap, p, np, gold, baner, backpack, direction)
+        case "=":
+            return [p, gold, translate("THIS TILE IS CLOSE"), 0]
         case ".":
             return [np, gold, "", 1]
         case ",":
