@@ -25,23 +25,23 @@ def pmover(pv):
     
 def dpos(y,hp,mhp,pd,lw,gold,poziom,atak,zbroja,wasattackby,Backpack,Baner):
     dposout = {
-        1: "  pż: "+ str(hp)+ "/" + str(mhp),
-        2: "  pd: "+ str(pd),
-        3: "  lw: "+ str(lw),
-        4: "  złoto: "+ str(gold),
-        5: "  poziom: "+ str(poziom),
-        6: "  atak: "+ str(atak),
-        7: "  zbroja: "+ str(zbroja),
-        9: "  orantium:"+ str(Baner[0]),
-        10: "  miotacz: "+ str(Baner[1]),
-        11: "  pociski: "+ str(Baner[2]),
-        13: "----plecak:----",
+        1: "  hp: " + str(hp) + "/" + str(mhp),
+        2: "  xp: " + str(pd),
+        3: "  lw: " + str(lw),
+        5: "  depth: " + str(poziom),
+        4: "  gold: " + str(gold),
+        6: "  attack: " + str(atak),
+        7: "  armor: " + str(zbroja),
+        9: "      orantium:" + str(Baner[0]),
+        10: " range attack: " + str(Baner[1]),
+        11: "       arrows: " + str(Baner[2]),
+        13: "------Backpack:------",
         14: printBackpack(Backpack,0),
         15: printBackpack(Backpack,1),
         16: printBackpack(Backpack,2),
         17: printBackpack(Backpack,3),
         18: printBackpack(Backpack,4),
         19: printBackpack(Backpack,5),
-        21: wasattackby,
+        21: "attack by: " + wasattackby,
         }
-    print("|" + dposout.get(y, "---------------"))
+    print("|" + dposout.get(y, "---------------------"))

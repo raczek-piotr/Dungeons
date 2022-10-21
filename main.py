@@ -8,11 +8,8 @@ except:
     from msvcrt import getch
     enable_windows_stuff = True
 from random import randint
-from random import choice
 
-#from galwana import galwana
-
-from pomoc import *
+from local_help import *
 from local import *
 from local_pokoj import *
 from local_items import items_init
@@ -30,7 +27,7 @@ def takein():
         return str(getch())[2]
     return getch()
 
-Backpack, mhp, hp, pd, vision, zbroja, lw, poziom, gold, pochodnia, pochotime, licznik, echo, wasattackby, playerdata, name, atak, time, Baner = [], 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "", 0, 0, 0, [0, 0, 0]
+Backpack, mhp, hp, pd, vision, zbroja, lw, depth, gold, pochodnia, pochotime, licznik, echo, wasattackby, playerdata, name, atak, time, Baner = [], 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "", 0, 0, 0, [0, 0, 0]
 
 def sort():
     global Backpack
@@ -83,27 +80,27 @@ def walka(y, x, atak):
                 rmap[y][x] = rmap[y][x][4:]
                 vmap[y][x] = rmap[y][x]
                 pd += enemies_xp(k)
-                echo = translate("YOU KILL A MONSTER")
+                echo = translate("YOU KILL") + " " + translate("A MONSTER")
             else:
                 rmap[y][x] = rmap[y][x][0] + zero3(hp-atak) + rmap[y][x][4:]
-                echo = translate("YOU HIT A MONSTER") + " | " + str(atak) + " | " + str(hp-atak) + " |"
+                echo = translate("YOU HIT") + " " + translate("A MONSTER") + " | " + str(atak) + " | " + str(hp-atak) + " |"
         else:
-            echo = translate("YOU MISS A MONSTER")
+            echo = translate("YOU MISS") + " " + translate("A MONSTER")
 
-def wybierzpostac(Backpack, mhp, hp, pd, vision, zbroja, lw, poziom, gold, pochodnia, pochotime, licznik, echo, wasattackby, playerdata, name, atak, time, Baner):
+def wybierzpostac(Backpack, mhp, hp, pd, vision, zbroja, lw, depth, gold, pochodnia, pochotime, licznik, echo, wasattackby, playerdata, name, atak, time, Baner):
     pd = 0
     vision = 1
     lw = 1
-    poziom = 1
+    depth = 1
     gold = 0
     pochodnia = 0
     pochotime = 0
     time = 0
     Baner = [0, 0, 8]
-    print("""                               JASKINIE IMPÓW
-                               Wybierz postać
-    c - człowiek
-    j - jaguar""")
+    print("""                                DUNGEONS
+                               CHOOSE A CHARACTER
+    h - human
+    """)
     i = takein()
     if i == "j":
         mhp = 15
@@ -112,28 +109,28 @@ def wybierzpostac(Backpack, mhp, hp, pd, vision, zbroja, lw, poziom, gold, pocho
         Backpack = ["DAGGER [11]"]
     else:
         mhp = 20
-        playerdata = ["Człowiek"]
+        playerdata = ["Human"]
         print("""
-    w - wojownik
-    l - łucznik
-    a - alchemik
-    r - rozbójnik""")
+        w - warrior
+        a - archer
+        ? - alchemist
+        f - footpad""")
         i = takein()
-        if i == "r":
-            playerdata.append("Rozbójnik")
+        if i == "f":
+            playerdata.append("Footpad")
             Backpack = ["KNIFE [03]", "SLING {02}"]
             Baner = [Baner[0], 2, 20]
-        elif i == "a":
-            playerdata.append("Alchemik")
+        elif i == "?":
+            playerdata.append("Alchemist")
             Backpack = ["KNIFE [03]"]
             Baner[0] = 1
-        elif i == "l":
-            playerdata.append("Łucznik")
+        elif i == "a":
+            playerdata.append("Archer")
             Backpack = ["DAGGER [04]", "BOW {03}"]
             Baner = [Baner[0], 3, 35]
         else:
-            playerdata.append("Wojownik")
-            Backpack = ["SWORD [05]"]
+            playerdata.append("Warrior")
+            Backpack = ["SMALL SWORD [05]"]
     Backpack.append("TORCH")
     atak = 1
 
@@ -143,36 +140,16 @@ def wybierzpostac(Backpack, mhp, hp, pd, vision, zbroja, lw, poziom, gold, pocho
     echo = ":"
     wasattackby = ""
     sort()
-    name = input("Podaj swoją nazwę (max 15 liter): ")
-    return(Backpack, mhp, hp, pd, vision, zbroja, lw, poziom, gold, pochodnia, pochotime, licznik, echo, wasattackby, playerdata, name, atak, time, Baner)
+    name = input("Your name (up to 17 letters): ")
+    return(Backpack, mhp, hp, pd, vision, zbroja, lw, depth, gold, pochodnia, pochotime, licznik, echo, wasattackby, playerdata, name, atak, time, Baner)
 
 def makemap():
-    global rmap, vmap, omap, poziom, sizey, sizex, ilist, py, px, echo
-    ilist, j, sizey, sizex, maxp, minp = items_init(path, poziom)
-    enemies_init(path, poziom)
-    if poziom % 5 != 6:
-        rmap, py, px = makedroga(sizey, sizex, "#", " ", "_", "+", "=", j, maxp, minp)
-    else:
-        with open(path + ".mapa"+str(poziom)+".pyg") as mapa:
-            rmap = mapa.readlines()
-            echo = rmap.pop(-1)
-            for i in range(len(rmap)):
-                rmap[i] = rmap[i].split("'")
-            sizey = len(rmap)
-            sizex = len(rmap[0])
-            py = sizey-1
-            px = sizex // 2
-            if poziom == 5:
-                pass
-            elif poziom == 10:
-                i = randint(0, 2)
-                if i == 0:
-                    rmap[29][20] = "b>24"
-                elif i == 1:
-                    rmap[29][50] = "b>24"
-                else:
-                    rmap[14][35] = "b>24"
-        rmap[py][px] = "."
+    global depth, rmap, vmap, omap, depth, sizey, sizex, py, px, echo
+    j, sizey, sizex, maxp, minp = items_init(path, depth)
+    enemies_init(path, depth)
+    help_init(path, depth)
+    rmap, py, px = makedroga(depth, sizey, sizex, "#", " ", "_", "+", "=", j, maxp, minp)
+    rmap[py][px] = "."
         
 
     vmap = [[" " for _ in range(sizex)] for _ in range(sizey)]
@@ -211,7 +188,7 @@ def out():
         else:
             i = "                                                     "
         print(i, end = "|")
-        dpos(y, hp, mhp, pd, lw, gold, poziom, atak, zbroja, wasattackby, Backpack, Baner)
+        dpos(y, hp, mhp, pd, lw, gold, depth, atak, zbroja, wasattackby, Backpack, Baner)
 
 
 # X i Y
@@ -220,8 +197,8 @@ sizex = 0
 py = 0
 px = 0
 
-poziom = 1
-Backpack, mhp, hp, pd, vision, zbroja, lw, poziom, gold, pochodnia, pochotime, licznik, echo, wasattackby, playerdata, name, atak, time, Baner = wybierzpostac(Backpack, mhp, hp, pd, vision, zbroja, lw, poziom, gold, pochodnia, pochotime, licznik, echo, wasattackby, playerdata, name, atak, time, Baner)
+depth = 1
+Backpack, mhp, hp, pd, vision, zbroja, lw, depth, gold, pochodnia, pochotime, licznik, echo, wasattackby, playerdata, name, atak, time, Baner = wybierzpostac(Backpack, mhp, hp, pd, vision, zbroja, lw, depth, gold, pochodnia, pochotime, licznik, echo, wasattackby, playerdata, name, atak, time, Baner)
 sort()
 atak, Baner[1], zbroja, echo = wezbron()
 makemap()
@@ -257,7 +234,9 @@ while True:
                     elif i == "TORCH":
                         pochodnia = 1
                         pochotime = 200
-                        echo = "Zapaliłeś "+ translate(i,1) + ", będzie ona świecić przez 200 tur:"
+                        if playerdata[1] == "Footpad":
+                            pochotime = 300
+                        echo = translate("YOU LIGHT") + " " + translate(i,1) + ", " + translate("AND IT WILL BY IN FIRE") + " " + str(pochotime) + " " + translate("TURNS")
                     else:
                         Backpack.append(i)
                         echo = "Tego nie umiesz wypić/urzyć/zapalić/przeczytać:"
@@ -374,7 +353,7 @@ while True:
             if rmap[npy][npx][0] == ">":
                 echo = "Zszedłeś w dół przez jednokierunkowe drzwi:"
                 py, px = 0, 0
-                poziom += 1
+                depth += 1
                 makemap()
                 rmap, vmap = testpokoj(rmap, vmap, [py, px])
             else:
@@ -383,7 +362,7 @@ while True:
             if rmap[npy][npx][0] == "<":
                 echo = "Wszedłeś do góry przez jednokierunkowe drzwi:"
                 py, px = 0, 0
-                poziom -= 1
+                depth -= 1
                 makemap()
                 rmap, vmap = testpokoj(rmap, vmap, [py, px])
             else:
@@ -505,9 +484,9 @@ while True:
             hp = mhp
         if hp <= 0:
             break
-i = pd + atak + zbroja + Baner[1] + 5 * len(Backpack) + mhp + 10 * (lw + poziom)
+i = pd + atak + zbroja + Baner[1] + 5 * len(Backpack) + mhp + 10 * (lw + depth)
 with open(path+'Wyniki.pyg', 'a') as wynik:
-    wynik.write(str(i)+"|"+name+"|"+playerdata[0]+" "+playerdata[1]+"|"+str(time)+"|"+str(lw)+"|"+str(poziom)+"|R|"+str(Backpack)+"\n")
+    wynik.write(str(i)+"|"+name+"|"+playerdata[0]+" "+playerdata[1]+"|"+str(time)+"|"+str(lw)+"|"+str(depth)+"|R|"+str(Backpack)+"\n")
 out()
 input(playerdata[0]+" "+playerdata[1]+" "+str(i)) + " time:" + str(time) + ":"
 input("""

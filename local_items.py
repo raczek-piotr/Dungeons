@@ -20,7 +20,7 @@ def items_init(path, depth):
             j.append(ilist[i][0]+zero3(str(randint(int(ilist[i][1]),int(ilist[i][2])))))
     i = ilist[-1].split(" ")
     print(j)
-    return([[len(ilist[0]), len(ilist[1]), len(ilist[2])], j, int(i[0]), int(i[1]), int(i[2]), int(i[3])])
+    return([j, int(i[0]), int(i[1]), int(i[2]), int(i[3])])
 
 
 def weapon(i):

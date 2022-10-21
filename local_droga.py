@@ -1,9 +1,7 @@
 from galwana import galwana
 from random import randint
 
-from local_enemies import enemies_heads
-
-def makedroga(sizey,sizex,sciana,podloga,jpodloga,drzwi,zdrzwi,items,ile = 25,minilosc = 10):
+def makedroga(depth, sizey,sizex,sciana,podloga,jpodloga,drzwi,zdrzwi,items,ile = 25,minilosc = 10):
     ile -= 1
     mmap = [[sciana for _ in range(sizex)] for _ in range(sizey)]
     pokoje = [[0,0,randint(3,5)/2,randint(3,5)/2]]
@@ -44,7 +42,7 @@ def makedroga(sizey,sizex,sciana,podloga,jpodloga,drzwi,zdrzwi,items,ile = 25,mi
             i = randint(1,len(pokoje)-2)
         mmap[pokoje[i][0]+randint(1,pokoje[i][2]-1)][pokoje[i][1]+randint(1,pokoje[i][3]-1)] = jpodloga+k+"."
         print(jpodloga+k+".",end = "| ")
-    if enemies_heads("B") != "-":
+    if depth % 5 == 0:
         mmap[pokoje[-1][0]+pokoje[-1][2]//2][pokoje[-1][1]+pokoje[-1][3]//2] = "_=>."
     else:
         mmap[pokoje[-1][0]+pokoje[-1][2]//2][pokoje[-1][1]+pokoje[-1][3]//2] = "_>."
