@@ -20,7 +20,7 @@ from local_translator import translate
 from local_zero3 import zero3
 from local_terrain import terrain
 
-path = ''
+path = 'data/'
 def takein():
     global enable_windows_stuff
     if enable_windows_stuff:
@@ -130,7 +130,7 @@ def wybierzpostac(Backpack, mhp, hp, pd, vision, zbroja, lw, depth, gold, pochod
             Baner = [Baner[0], 3, 35]
         else:
             playerdata.append("Warrior")
-            Backpack = ["SMALL SWORD [05]"]
+            Backpack = ["SHORT SWORD [05]"]
     Backpack.append("TORCH")
     atak = 1
 
@@ -150,7 +150,6 @@ def makemap():
     help_init(path, depth)
     rmap, py, px = makedroga(depth, sizey, sizex, "#", " ", "_", "+", "=", j, maxp, minp)
     rmap[py][px] = "."
-        
 
     vmap = [[" " for _ in range(sizex)] for _ in range(sizey)]
     omap = [[" " for _ in range(sizex)] for _ in range(sizey)]
@@ -205,7 +204,7 @@ makemap()
 npy = py
 npx = px
 printwynik(path)
-rmap, vmap = testpokoj(rmap, vmap, [py, px])
+test_room(rmap, vmap, [py, px])
 tlist = [".",","," ","_","]","}",")","~","-","!","?"]
 while True:
     out()
@@ -227,7 +226,7 @@ while True:
                 i = int(takein())-1
                 if i >= 0 and i < len(Backpack):
                     i = Backpack.pop(i)
-                
+
                     if i == "MIXTURE":
                         hp = mhp
                         echo = "Wypiłeś "+ translate(i,1) + " i twoje rany się zagoiły:"
@@ -235,8 +234,8 @@ while True:
                         pochodnia = 1
                         pochotime = 200
                         if playerdata[1] == "Footpad":
-                            pochotime = 300
-                        echo = translate("YOU LIGHT") + " " + translate(i,1) + ", " + translate("AND IT WILL BY IN FIRE") + " " + str(pochotime) + " " + translate("TURNS")
+                            pochotime += 50
+                        echo = translate("YOU LIGHT A") + " " + translate(i,1) + ", " + translate("AND IT WILL GIVE YOU LIGHT FOR") + " " + str(pochotime) + " " + translate("TURNS")
                     else:
                         Backpack.append(i)
                         echo = "Tego nie umiesz wypić/urzyć/zapalić/przeczytać:"
@@ -304,7 +303,7 @@ while True:
                 for y in range(i[0]-3, i[0]):
                     for x in range(i[1]-3, i[1]):
                         if rmap[y][x] == "#":
-                            rmap[y][x] = "_:"
+                            pass
                         elif rmap[y][x][0] == "B":
                             rmap[y][x] = rmap[y][x][0] + zero3(int(rmap[y][x][1:4])//2) + rmap[y][x][4:]
                         elif ">" in rmap[y][x] or "<" in rmap[y][x]:
@@ -355,7 +354,7 @@ while True:
                 py, px = 0, 0
                 depth += 1
                 makemap()
-                rmap, vmap = testpokoj(rmap, vmap, [py, px])
+                test_room(rmap, vmap, [py, px])
             else:
                 moved = 0
         elif imput == "<":
@@ -364,7 +363,7 @@ while True:
                 py, px = 0, 0
                 depth -= 1
                 makemap()
-                rmap, vmap = testpokoj(rmap, vmap, [py, px])
+                test_room(rmap, vmap, [py, px])
             else:
                 moved = 0
         elif imput == "r":
@@ -417,7 +416,7 @@ while True:
         p, np = [py, px], [npy, npx]
         np, gold, echo, moved = terrain(rmap, vmap, p, np, gold, Baner, Backpack, pm)
         py, px = np
-        rmap, vmap = testpokoj(rmap, vmap, [py, px])
+        test_room(rmap, vmap, [py, px])
         # new----------------------------------------------
         if rmap[npy][npx] == ":":
             if randint(0, 4) == 0:
@@ -448,7 +447,7 @@ while True:
                 i = [(py+y) % sizey, (px+x) % sizex]
                 k = enemies_heads(rmap[i[0]][i[1]][0])
                 if k != "-":
-                    if randint(0, 1) == 0:
+                    if randint(0, 99) < 60:
                         wasattackby += rmap[i[0]][i[1]][0]
                         bonus = enemies_attack(k)
                 if bonus != 0:
@@ -463,7 +462,7 @@ while True:
                     if enemies_heads(rmap[i[0]][i[1]][0]) != "-":
                         i = [i[0], i[1], (i[0]+randint(-1, 1)) % sizey, (i[1]+randint(-1, 1)) % sizex, rmap[i[0]][i[1]][:4], rmap[i[0]][i[1]][4:]]
                         # i = [sy, sx, ny, nx, wrog, s.teren]
-                        if rmap[i[2]][i[3]][0] == " " or rmap[i[2]][i[3]][0] == "." or rmap[i[2]][i[3]][0] == ", ":
+                        if rmap[i[2]][i[3]][0] in tlist:
                             rmap[i[2]][i[3]] = i[4] + rmap[i[2]][i[3]]
                             if i[5] != " ":
                                 vmap[i[2]][i[3]] = rmap[i[2]][i[3]]

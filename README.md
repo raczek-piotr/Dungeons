@@ -1,7 +1,19 @@
-# Dungeons
-Easy rogue-like game, played in console like cmd in windows.
-You can run it in windows or linux with library "getch".
-In the future I fill use "curses" library
+## Dungeons
+* [General info](#general-info)
+* [Technologies](#technologies)
+* [Setup](#setup)
+* [Contact](#contact)
 
-By Piotr Raczek.
-I'm programing python by my own.
+## General info
+Roguelike game with simple interface played in console.
+	
+## Technologies
+Project is created with:
+* Python 3.10
+* Library getch in linux or msvcrt in windows; I think that different versions of libraries will make no different
+	
+## Setup
+To run this project, run terminal or cmd in windows, and if you are in location where "main.py" is; To run it, tape commend "python main.py".
+
+## Contact
+* email raczek.piotr@o2.pl

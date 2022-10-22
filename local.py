@@ -1,5 +1,9 @@
 from local_translator import translate
 
+# local mmap
+#def mmap_init(rmap, py, px):
+#
+
 def printBackpack(Backpack,arg):
     try:
         if Backpack[arg][-1] in ["]","}",")"]:
@@ -28,11 +32,11 @@ def dpos(y,hp,mhp,pd,lw,gold,poziom,atak,zbroja,wasattackby,Backpack,Baner):
         1: "  hp: " + str(hp) + "/" + str(mhp),
         2: "  xp: " + str(pd),
         3: "  lw: " + str(lw),
-        5: "  depth: " + str(poziom),
-        4: "  gold: " + str(gold),
+        4: "  depth: " + str(poziom),
+        5: "  gold: " + str(gold),
         6: "  attack: " + str(atak),
         7: "  armor: " + str(zbroja),
-        9: "      orantium:" + str(Baner[0]),
+        9: "     orantium: " + str(Baner[0]),
         10: " range attack: " + str(Baner[1]),
         11: "       arrows: " + str(Baner[2]),
         13: "------Backpack:------",

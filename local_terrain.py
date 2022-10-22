@@ -56,11 +56,11 @@ def f_weapon(rmap, vmap, p, np, gold, baner, backpack, direction):
             rmap[npy][npx] = rmap[npy][npx][4:]
             vmap[npy][npx] = rmap[npy][npx]
             backpack.append(i)
-            echo = translate("YOU TAKE") + " " + i
+            echo = translate("YOU TAKE") + " " + translate(str(i[:-5])) + str(i[-5:])
         else:
             echo = "Nie masz miejsca w plecaku:"
     else:
-        echo = translate("HERE IS") + " " + i
+        echo = translate("HERE IS") + " " + translate(str(i[:-5])) + str(i[-5:])
     return [np, gold, echo, 1]
 
 def f_putter(rmap, vmap, p, np, gold, baner, backpack, direction):
@@ -71,11 +71,11 @@ def f_putter(rmap, vmap, p, np, gold, baner, backpack, direction):
             rmap[npy][npx] = rmap[npy][npx][4:]
             vmap[npy][npx] = rmap[npy][npx]
             backpack.append(i)
-            echo = translate("YOU TAKE") + " " + i
+            echo = translate("YOU TAKE") + " " + translate(str(i[:-5])) + str(i[-5:])
         else:
             echo = "Nie masz miejsca w plecaku:"
     else:
-        echo = translate("HERE IS") + " " + i
+        echo = translate("HERE IS") + " " + translate(str(i[:-5])) + str(i[-5:])
     return [np, gold, echo, 1]
 
 def f_armor(rmap, vmap, p, np, gold, baner, backpack, direction):
@@ -86,11 +86,11 @@ def f_armor(rmap, vmap, p, np, gold, baner, backpack, direction):
             rmap[npy][npx] = rmap[npy][npx][4:]
             vmap[npy][npx] = rmap[npy][npx]
             backpack.append(i)
-            echo = translate("YOU TAKE") + " " + i
+            echo = translate("YOU TAKE") + " " + translate(str(i[:-5])) + str(i[-5:])
         else:
             echo = "Nie masz miejsca w plecaku:"
     else:
-        echo = translate("HERE IS") + " " + i
+        echo = translate("HERE IS") + " " + translate(str(i[:-5])) + str(i[-5:])
     return [np, gold, echo, 1]
 
 def f_torch(rmap, vmap, p, np, gold, baner, backpack, direction):

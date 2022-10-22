@@ -11,7 +11,7 @@ lang_PL = {
     "ARROWS5": "STRZAŁ",
     "KNIFE": "NÓŻ",
     "DAGGER": "SZTYLET",
-    "SMALL SWORD": "KRÓTKI MIECZ",
+    "SHORT SWORD": "KRÓTKI MIECZ",
     "MACE": "BUŁAWA",
     "SLING": "PROCA",
     "BOW": "ŁUK",
@@ -21,8 +21,8 @@ lang_PL = {
     "YOU HIT": "ZRANIŁEŚ",
     "YOU MISS": "SPUDŁOWAŁEŚ W",
     "A MONSTER": "POTWORA",
-    "YOU LIGHT": "ZAPALIŁEŚ",
-    "AND IT WILL BY IN FIRE": "I BĘDZIE SIĘ PALIĆ PRZEZ",
+    "YOU LIGHT A": "ZAPALIŁEŚ",
+    "AND IT WILL GIVE YOU LIGHT FOR": "I BĘDZIE TOBIE DAWAĆ ŚWIATŁO PRZEZ",
     "TURNS": "TUR",
     "THIS TILE IS CLOSE": "TO POLE JEST ZAMKNIĘTE",
     "GOLD1": "ZŁOTO",
@@ -34,6 +34,8 @@ def translate(ang, number = 0):
     match lang:
         case "PL":
             return(l_pl(ang, number))
+        case _:
+            return(ang)
 def l_pl(ang, number):
     global lang_PL
     return(lang_PL.get(ang+("" if number == 0 else "1" if number == 1 else "2" if number < 5 or number % 10 in [2, 3, 4] and number > 20 else "5"), ang))

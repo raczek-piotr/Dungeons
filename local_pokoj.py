@@ -1,6 +1,6 @@
 from galwana import galwana
 
-def testpokoj(rmap,vmap,p1):
+def test_room(rmap,vmap,p1):
     sizey = len(rmap)
     sizex = len(rmap[0])
     w,k = galwana(p1[0],sizey),galwana(p1[1],sizex)
@@ -48,4 +48,3 @@ def testpokoj(rmap,vmap,p1):
         for i in range(w-1,w+2):
             for j in range(k-1,k+2):
                 vmap[i][j] = rmap[i][j]
-    return(rmap,vmap)
