@@ -3,6 +3,7 @@
 * [Technologies](#technologies)
 * [Setup](#setup)
 * [Contact](#contact)
+* [Authors](#authors)
 
 ## General info
 Roguelike game with simple interface played in console.
@@ -10,10 +11,14 @@ Roguelike game with simple interface played in console.
 ## Technologies
 Project is created with:
 * Python 3.10
-* Library getch in linux or msvcrt in windows; I think that different versions of libraries will make no different
+* Libraries: getch in linux or msvcrt in windows; I think that different versions of libraries will not mater
 	
 ## Setup
-To run this project, run terminal or cmd in windows, and if you are in location where "main.py" is; To run it, tape commend "python main.py".
+To run this project, run terminal or cmd in windows, and if you are in location where "main.py" is; To run it, type command "python main.py".
+Because in the future it will be only way to run it :)
 
 ## Contact
 * email raczek.piotr@o2.pl
+
+## Authors
+By: Piotr Raczek

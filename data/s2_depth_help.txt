@@ -1,24 +1,24 @@
 Monsters:
-
         b - big rat
         hp ~ 11
     attack ~ 3
         xp ~ 2
 
-        s - small snake
-        hp ~ 8
+        S - small snake
+        hp ~ 6-10
     attack ~ 6
         xp ~ 3
 
-        c - crab
-        hp ~ 24
+        t - thief
+        hp ~ 15-25
     attack ~ 4
-        xp ~ 6
+        xp ~ 5
 
-        B - Boss crab
-        hp ~ 32
-    attack ~ 6
-        xp ~ 12
+        B - leader thief (Boss)
+        hp ~ 91			teleportacja
+    attack ~ 4			przywo³ywanie
+        xp ~ 40
 
+	` - flying dagger attack ~ 4
 
 help for depths 6 - 10

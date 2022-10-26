@@ -11,8 +11,9 @@ def items_init(path, depth):
     j = []
     for i in range(len(ilist)-1):
         ilist[i] = ilist[i].split(" ")
-        if int(ilist[i][3]) > randint(0,99):
-            j.append(ilist[i][0]+zero3(str(randint(int(ilist[i][1]),int(ilist[i][2])))))
+        for _ in range(int(ilist[i][4])):
+            if int(ilist[i][3]) > randint(0,99):
+                j.append(ilist[i][0]+zero3(str(randint(int(ilist[i][1]),int(ilist[i][2])))))
     k = ilist[-1].split(" ")
 
     depth = "s" + str((depth+4)//5)
@@ -23,7 +24,7 @@ def items_init(path, depth):
     for i in range(len(ilist)):
         ilist[i] = ilist[i].split(";")
 
-    return([j, int(k[0]), int(k[1]), int(k[2]), int(k[3])])
+    return([j, int(k[0]), int(k[1]), int(k[2]), int(k[3]), int(k[4])])
 
 
 def weapon(i):

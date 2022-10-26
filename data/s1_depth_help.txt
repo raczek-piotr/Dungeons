@@ -1,5 +1,4 @@
 Monsters:
-
 	r - rat
 	hp ~ 8
     attack ~ 2
@@ -11,9 +10,10 @@ Monsters:
 	xp ~ 2
 
 	B - Boss rat
-	hp ~ 24
-    attack ~ 6
-	xp ~ 9
+	hp ~ 34
+    attack ~ 8
+	xp ~ 17
+
 
 
 

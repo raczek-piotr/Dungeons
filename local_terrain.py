@@ -43,8 +43,8 @@ def f_orantium(rmap, vmap, p, np, gold, baner, backpack, direction):
 
 def f_door(rmap, vmap, p, np, gold, baner, backpack, direction):
     npy, npx = np[0], np[1]
-    rmap[npy][npx] = ", "
-    vmap[npy][npx] = ", "
+    rmap[npy][npx] = ","
+    vmap[npy][npx] = ","
     echo = "Otworzyłeś drzwi"
     return [p, gold, echo, 1]
 
