@@ -93,7 +93,7 @@ def attack_enemies(y, x, atak, chance = 60):
                         y, x = randint(3, sizey-4), randint(3, sizex-4)
                         while rmap[y][x] not in tlist:
                             y, x = randint(3, sizey-4), randint(3, sizex-4)
-                        rmap[y][x] = t_m + rmap[y][x][4:]
+                        rmap[y][x] = t_m + rmap[y][x]
                         #
                         # bonus = 0
                         # i = 2
