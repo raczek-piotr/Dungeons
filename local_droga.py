@@ -12,12 +12,12 @@ def makedroga(depth, sizey, sizex, items, ile = 25, minilosc = 10, type_of_map =
         space = 0
     mmap = [["#" for _ in range(sizex)] for _ in range(sizey)]
     pokoje = [[0, 0, randint(min_room_size, max_room_size)/2, randint(min_room_size, max_room_size)/2, 0]]
-    pokoje[0][0] = randint(1, sizey-1 - 2 * pokoje[0][2])
-    pokoje[0][1] = randint(1, sizex-1 - 2 * pokoje[0][3])
+    pokoje[0][0] = randint(1, sizey-2 - 2 * pokoje[0][2])
+    pokoje[0][1] = randint(1, sizex-2 - 2 * pokoje[0][3])
     proby = 0
     while len(pokoje) < minilosc or proby < ile:
         sy, sx = randint(min_room_size, max_room_size)/2, randint(min_room_size, max_room_size)/2
-        y, x = randint(1, sizey-1 - 2 * sy), randint(1, sizex-1 - 2 * sx)
+        y, x = randint(1, sizey-2 - 2 * sy), randint(1, sizex-2 - 2 * sx)
         can, proby = True, proby + 1
         for i in pokoje:
             if ((abs((i[0]+i[2])-(y+sy)) < i[2]+sy+space and
@@ -67,9 +67,9 @@ def makedroga(depth, sizey, sizex, items, ile = 25, minilosc = 10, type_of_map =
         start_points(mmap, sizey, sizex, pokoje, type_of_map)
         i = randint(1, len(pokoje)-2)
         for k in items:
-            while mmap[pokoje[i][0]+randint(0, pokoje[i][2])][pokoje[i][1]+randint(0, pokoje[i][3])] != " ":
+            while mmap[pokoje[i][0]+randint(0, pokoje[i][2]-1)][pokoje[i][1]+randint(0, pokoje[i][3]-1)] != " ":
                 i = randint(1, len(pokoje)-2)
-            mmap[pokoje[i][0]+randint(0, pokoje[i][2])][pokoje[i][1]+randint(0, pokoje[i][3])] = k+" "
+            mmap[pokoje[i][0]+randint(0, pokoje[i][2]-1)][pokoje[i][1]+randint(0, pokoje[i][3]-1)] = k+" "
         if depth % 5 == 0:
             mmap[pokoje[-1][0]+pokoje[-1][2]//2][pokoje[-1][1]+pokoje[-1][3]//2] = "=>"
         else:
