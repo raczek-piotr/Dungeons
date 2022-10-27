@@ -1,6 +1,7 @@
 lang_PL = {
     "HERE IS A WALL": "TU JEST ŚCIANA",
     "HERE IS": "TUTAJ JEST",
+    "HERE ARE": "TUTAJ JEST",
     "YOU TAKE": "WZIĄŁEŚ",
     "TORCH": "POCHODNIA",
     "TORCH1": "POCHODNIĘ",

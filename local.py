@@ -6,7 +6,6 @@ ex_tlist = [".",","," ","_","]","}",")","~","-","!","?","<",">", "r", "b", "B", 
 tlist = [".",","," ","_","]","}",")","~","-","!","?","<",">"]
 mmap = []
 def mmap_init(rmap, p1, h = 5):
-    print(h)
     global ex_tlist, mmap
     sizey, sizex = len(rmap), len(rmap[0])
     mmap = [[-1 for _ in range(sizey)] for _ in range(sizex)]

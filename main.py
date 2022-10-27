@@ -125,7 +125,7 @@ def wybierzpostac():
         1 - rogue""")
         i = takein()
         if i == "1":
-            player_atributs = [70, 40, 12, 3, 0, 0, 5]
+            player_atributs = [60, 40, 16, 4, 2, 75, 5]
             player_data.append("Rogue")
             Backpack = ["KNIFE [03]", "SLING {02}"]
             Baner[2] = 20
@@ -140,12 +140,12 @@ def wybierzpostac():
         1 - rogue""")
         i = takein()
         if i == "1":
-            player_atributs = [60, 50, 20, 5, 0, 0, 10]
+            player_atributs = [60, 50, 20, 5, 2, 75, 5]
             player_data.append("Rogue")
             Backpack = ["KNIFE [03]", "SLING {02}"]
             Baner[2] = 20
         else:
-            player_atributs = [60, 50, 24, 6, 0, 0, 15]
+            player_atributs = [70, 50, 20, 5, 0, 0, 10]
             player_data.append("Warrior")
             Backpack = ["DAGGER [04]"]
     Backpack.append("TORCH")
@@ -158,9 +158,8 @@ def wybierzpostac():
     pochotime = 0
     licznik = 0
     wasattackby = ""
-    sort()
     name = input("Your name (up to 17 letters): ")
-    return(player_atributs[2], player_atributs[2], pd, vision, lw, depth, gold, pochodnia, pochotime, licznik, wasattackby, player_data, name, Backpack, Baner, player_atributs)
+    return(pd, vision, lw, depth, gold, pochodnia, pochotime, licznik, wasattackby, player_data, name, Backpack, Baner, player_atributs)
 
 def makemap():
     global depth, rmap, vmap, omap, depth, sizey, sizex, py, px, echo
@@ -168,7 +167,7 @@ def makemap():
     enemies_init(path, depth)
     help_init(path, depth)
     rmap, py, px = makedroga(depth, sizey, sizex, j, maxp, minp, type_of_map)
-    rmap[py][px] = "<"
+    #rmap[py][px] = "<"
 
     vmap = [[" " for _ in range(sizex)] for _ in range(sizey)]
     omap = [[" " for _ in range(sizex)] for _ in range(sizey)]
@@ -218,9 +217,15 @@ npx = px
 n_lw = 5
 
 player_time = 0
-Backpack, mhp, hp, pd, vision, zbroja, lw, depth, gold, pochodnia, pochotime, licznik, wasattackby, player_data, name, atak, time, Baner = [], 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "", 0, 0, 0, [[0, 0], 0, 0]
-mhp, hp, pd, vision, lw, depth, gold, pochodnia, pochotime, licznik, wasattackby, player_data, name, Backpack, Baner, player_atributs = wybierzpostac()
+#Backpack, mhp, hp, pd, vision, zbroja, lw, depth, gold, pochodnia, pochotime, licznik, wasattackby, player_data, name, atak, time, Baner = [], 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "", 0, 0, 0, [[0, 0], 0, 0]
+pd, vision, lw, depth, gold, pochodnia, pochotime, licznik, wasattackby, player_data, name, Backpack, Baner, player_atributs = wybierzpostac()
+time, manatime = 0, 0
+hp, mhp = player_atributs[2], player_atributs[2]
+Baner[0][0], Baner[0][1] = player_atributs[4], player_atributs[4]
 sort()
+
+#depth = 6
+#pd = 51
 
 atak, Baner[1], zbroja, echo = wezbron()
 
@@ -305,50 +310,24 @@ while True:
             except:
                 moved = 0
         elif imput == "-":
-            if Baner[0] > 0:
-                out()
-                print("Wybierz kierunek gdzie rzucisz orantium:")
-                try:
-                    pm = pmover(str(int(takein())))
-                    npy = int(pm[0])-1
-                    npx = int(pm[1])-1
-                except:
-                    moved = 0
-                    continue
-                i = [(py+npy)%sizey, (px+npx)%sizex]
-                if pm != "11":
-                    while rmap[i[0]][i[1]][0] in tlist:
-                        i = [(i[0]+npy)%sizey, (i[1]+npx)%sizex]
-                if rmap[i[0]][i[1]] == "#" or rmap[i[0]][i[1]] == "+":
-                    i = [(i[0]-npy)%sizey, (i[1]-npx)%sizex] # cofanie o 1
-                i = [(i[0]+2)%sizey, (i[1]+2)%sizex]
-                for y in range(i[0]-3, i[0]):
-                    for x in range(i[1]-3, i[1]):
-                        if rmap[y][x] == "#":
-                            pass
-                        elif rmap[y][x][0] == "B":
-                            rmap[y][x] = rmap[y][x][0] + zero3(int(rmap[y][x][1:4])//2) + rmap[y][x][4:]
-                        elif ">" in rmap[y][x] or "<" in rmap[y][x]:
-                            if ">" in rmap[y][x]:
-                                rmap[y][x] = "_>"
-                            else:
-                                rmap[y][x] = "_<"
-                        else:
-                            k = enemies_heads(rmap[y][x][0])
-                            if k != "-":
-                                pd += enemies_xp(k)
-                            rmap[y][x] = "_."
-                            if omap[y][x] == "@":
-                                hp = 0
-                        vmap[y][x] = rmap[y][x]
-                rmap, vmap = test_room(rmap, vmap, [i[0]-2, i[1]-2])
-                Baner[0] -= 1
+            print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n    1 - MAGIC MORE LIGHT (1)\n    2 - HEAL SELF (2)")
+            k = takein()
+            if k == "1" and Baner[0][0] >= 1:
+                pochotime += 50
+                pochodnia = 1
+                echo = "YOU HAVE A MAGIC LIGHT"
+                Baner[0][0] -= 1
+            elif k == "2" and hp != mhp and Baner[0][0] >= 2:
+                hp += (mhp-hp)//2
+                echo = "YOU HAVE BEEN HEALED"
+                Baner[0][0] -= 2
             else:
                 moved = 0
+                echo = "YOU CAN'T MAKE A SPELL"
         elif imput == "0":
             if Baner[2] > 0:
                 out()
-                print("Wybierz kierunek gdzie strzelisz (tylko we wrogów):")
+                print("Wybierz kierunek gdzie strzelisz")
                 try:
                     pm = pmover(str(int(takein())))
                     npy = int(pm[0])-1
@@ -389,43 +368,17 @@ while True:
             else:
                 moved = 0
         elif imput == "r":
-            moved = 0
             if hp < mhp:
                 if test_enemies(px, py, sizex, sizey, rmap) == 9:
-                    pochotime -= 10
+                    pochotime -= 9
                     hp += 1
-                    time += 10
+                    time += 9
+                    manatime += 9
                     echo = "Odpocząłeś 10 tur:"
                 else:
                     echo = "Nie możesz tu odpocząć:"
             else:
                 echo = "Nie musisz odpoczywać:"
-        elif imput == "q":
-            makemap()
-            moved = 0
-            if test_enemies(px, py, sizex, sizey, rmap) == 9:
-                if (pochotime < 25 or  pochodnia == 0) and rmap[py][px] != ".":
-                    echo = "Posiadasz za mało światła:"
-                else:
-                    out()
-                    print("Wybierz kierunek kopania (zajmuje to 10 tur):")
-                    try:
-                        pm = pmover(str(int(takein())))
-                    except:
-                        pm = "11"
-                    npy = int(pm[0])-1
-                    npx = int(pm[1])-1
-                    npy, npx = (py+npy)%sizey, (px+npx)%sizex
-                    if rmap[npy][npx] == "#":
-                        rmap[npy][npx] = "."
-                        vmap[npy][npx] = "."
-                        echo = "Wykopałes tunel:"
-                        pochotime -= 10
-                        time += 10
-                    else:
-                        echo = "Nie możesz tu kopać:"
-            else:
-                echo = "Wróg w pobliżu:"
         elif imput == "s":
             sort()
             moved = 0
@@ -455,6 +408,15 @@ while True:
     
     if moved == 1:
         time += 1
+        print(manatime)
+        print(player_atributs[4], Baner[0][0])
+        if player_atributs[4] > Baner[0][0]:
+            manatime += 1
+            if manatime > player_atributs[5]:
+                manatime = 0
+                Baner[0][0] += 1
+        else:
+            manatime = 0
         if pochodnia == 1:
             pochotime -= 1
             if pochotime < 0:

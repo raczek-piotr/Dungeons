@@ -24,21 +24,7 @@ def f_arrows(rmap, vmap, p, np, gold, baner, backpack, direction):
         vmap[npy][npx] = rmap[npy][npx]
     else:
         i = int(rmap[npy][npx][1:4])
-        echo = translate("HERE IS")+" "+str(i)+" "+translate("ARROWS", i)
-    return [np, gold, echo, 1]
-
-def f_orantium(rmap, vmap, p, np, gold, baner, backpack, direction):
-    npy, npx = np
-    i = int(rmap[npy][npx][1:4])
-    if direction == "11":
-        i = int(rmap[npy][npx][1:4])
-        baner[0] += i
-        echo = translate("YOU TAKE") + " " + str(i) + " x 'kulek orantium'"
-        rmap[npy][npx] = rmap[npy][npx][4:]
-        vmap[npy][npx] = rmap[npy][npx]
-    else:
-        i = int(rmap[npy][npx][1:4])
-        echo = translate("HERE IS") + " " + str(i) + " x 'kulek orantium'"
+        echo = translate("HERE ARE")+" "+str(i)+" "+translate("ARROWS", i)
     return [np, gold, echo, 1]
 
 def f_door(rmap, vmap, p, np, gold, baner, backpack, direction):
