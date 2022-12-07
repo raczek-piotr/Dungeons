@@ -1,0 +1,24 @@
+Monsters:
+        t - thief
+        hp ~ 15-25
+    attack ~ 4
+        xp ~ 5
+
+        S - brown snake
+        hp ~ 9-13
+    attack ~ 10
+        xp ~ 7
+
+        c - crab
+        hp ~ 32
+    attack ~ 5
+        xp ~ 10
+
+        B - (Boss)
+        hp ~ 91
+    attack ~ 7
+        xp ~ 40
+
+
+
+help for depths 6 - 10

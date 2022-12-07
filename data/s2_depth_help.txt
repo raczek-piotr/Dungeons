@@ -16,9 +16,9 @@ Monsters:
 
         B - leader thief (Boss)
         hp ~ 91			teleportacja
-    attack ~ 4			przywo³ywanie
+    attack ~ 7			przywo³ywanie "`"
         xp ~ 40
 
-	` - flying dagger attack ~ 4
+	` - flying dagger attack ~ 7
 
 help for depths 6 - 10

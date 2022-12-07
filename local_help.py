@@ -7,7 +7,7 @@ def help_init(path,depth):
 
 def pomoc():
     global help_echo
-    input("""Tiles:
+    input("""Tiles: 							Version = H_version.0.1
     @ - you
     # - wall
     + - closed door

@@ -116,34 +116,68 @@ def wybierzpostac():
                                CHOOSE A CHARACTER
     0 - human
     1 - halfling
+    2 - hobbit
     """)
     i = takein()
     if i == "1":
         player_data = ["Halfling"]
         print("""
         0 - warrior
-        1 - rogue""")
+        1 - rogue
+        2 - mage""")
         i = takein()
         if i == "1":
-            player_atributs = [60, 40, 16, 4, 2, 75, 5]
+            player_atributs = [60, 40, 16, 4, 2, 75, 4]
             player_data.append("Rogue")
             Backpack = ["KNIFE [03]", "SLING {02}"]
             Baner[2] = 20
+        elif i == "2":
+            player_atributs = [60, 40, 12, 3, 5, 50, 6]
+            player_data.append("Mage")
+            Backpack = ["KNIFE [03]"]
+            Baner[2] = 0
         else:
-            player_atributs = [70, 40, 16, 4, 0, 0, 10]
+            player_atributs = [70, 40, 16, 4, 0, 0, 8]
+            player_data.append("Warrior")
+            Backpack = ["DAGGER [04]"]
+    elif i == "2":
+        player_data = ["Hobbit"]
+        print("""
+        0 - warrior
+        1 - rogue
+        2 - mage""")
+        i = takein()
+        if i == "1":
+            player_atributs = [60, 30, 12, 3, 2, 75, 3]
+            player_data.append("Rogue")
+            Backpack = ["KNIFE [03]", "SLING {02}"]
+            Baner[2] = 20
+        elif i == "2":
+            player_atributs = [60, 30, 8, 2, 5, 50, 4]
+            player_data.append("Mage")
+            Backpack = ["KNIFE [03]"]
+            Baner[2] = 0
+        else:
+            player_atributs = [70, 30, 12, 3, 0, 0, 5]
             player_data.append("Warrior")
             Backpack = ["DAGGER [04]"]
     else:
         player_data = ["Human"]
         print("""
         0 - warrior
-        1 - rogue""")
+        1 - rogue
+        2 - mage""")
         i = takein()
         if i == "1":
-            player_atributs = [60, 50, 20, 5, 2, 75, 5]
+            player_atributs = [60, 50, 20, 5, 2, 75, 6]
             player_data.append("Rogue")
             Backpack = ["KNIFE [03]", "SLING {02}"]
             Baner[2] = 20
+        elif i == "2":
+            player_atributs = [60, 50, 16, 4, 5, 50, 8]
+            player_data.append("Mage")
+            Backpack = ["KNIFE [03]"]
+            Baner[2] = 0
         else:
             player_atributs = [70, 50, 20, 5, 0, 0, 10]
             player_data.append("Warrior")
@@ -163,7 +197,7 @@ def wybierzpostac():
 
 def makemap():
     global depth, rmap, vmap, omap, depth, sizey, sizex, py, px, echo
-    j, sizey, sizex, maxp, minp, type_of_map = items_init(path, depth)
+    j, sizey, sizex, maxp, minp, type_of_map = items_init(path, depth, player_data[1])
     enemies_init(path, depth)
     help_init(path, depth)
     rmap, py, px = makedroga(depth, sizey, sizex, j, maxp, minp, type_of_map)
@@ -310,7 +344,7 @@ while True:
             except:
                 moved = 0
         elif imput == "-":
-            print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n    1 - MAGIC MORE LIGHT (1)\n    2 - HEAL SELF (2)")
+            print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n    1 - MAGIC MORE LIGHT (1)\n    2 - HEAL SELF (SOME) (2)\n    3 - HEAL SELF + MAGIC MORE LIGHT(4)")
             k = takein()
             if k == "1" and Baner[0][0] >= 1:
                 pochotime += 50
@@ -319,8 +353,14 @@ while True:
                 Baner[0][0] -= 1
             elif k == "2" and hp != mhp and Baner[0][0] >= 2:
                 hp += (mhp-hp)//2
-                echo = "YOU HAVE BEEN HEALED"
+                echo = "YOU HAVE BEEN HEALED (SOME)"
                 Baner[0][0] -= 2
+            elif k == "3" and hp != mhp and Baner[0][0] >= 4:
+                pochotime += 50
+                pochodnia = 1
+                hp = mhp
+                echo = "YOU HAVE BEEN HEALED AND MORE LIGHT"
+                Baner[0][0] -= 4
             else:
                 moved = 0
                 echo = "YOU CAN'T MAKE A SPELL"
@@ -408,8 +448,6 @@ while True:
     
     if moved == 1:
         time += 1
-        print(manatime)
-        print(player_atributs[4], Baner[0][0])
         if player_atributs[4] > Baner[0][0]:
             manatime += 1
             if manatime > player_atributs[5]:
@@ -493,10 +531,6 @@ with open(path+'Wyniki.pyg', 'a') as wynik:
 out()
 input(player_data[0]+" "+player_data[1]+" "+str(i)) + " time:" + str(time) + ":"
 input("""
-
-
-
-
                _______________________
               /                       \         ___
              /                         \ ___   /   \      ___
