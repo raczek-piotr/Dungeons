@@ -9,10 +9,6 @@ def items_init(path, depth, p_data):
     if ilist[-1] == "":
         ilist.pop(-1)
     j = []
-    if p_data == "Warrior" and randint(0, 2) == 0: # help for warriors -PR-
-        j.append("~000")
-    if p_data == "Warrior" and randint(0, 2) == 0:
-        j.append("?000")
     for i in range(len(ilist)-1):
         ilist[i] = ilist[i].split(" ")
         for _ in range(int(ilist[i][4])):

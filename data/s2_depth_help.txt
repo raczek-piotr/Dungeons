@@ -19,6 +19,6 @@ Monsters:
     attack ~ 7			przywo³ywanie "`"
         xp ~ 40
 
-	` - flying dagger attack ~ 7
+	` - dark power: attack ~ 7
 
 help for depths 6 - 10

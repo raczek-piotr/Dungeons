@@ -2,8 +2,8 @@ from local_translator import translate
 
 # local mmap
 from random import randint
-ex_tlist = [".",","," ","_","]","}",")","~","-","!","?","<",">", "r", "b", "B", "S", "t", "`"]
-tlist = [".",","," ","_","]","}",")","~","-","!","?","<",">"]
+ex_tlist = [".",","," ","_","]","}",")","$","~","-","!","?","<",">", "r", "b", "B", "S", "t", "v", "c", "`"]
+tlist = [".",","," ","_","]","}",")","$","~","-","!","?","<",">"]
 mmap = []
 def mmap_init(rmap, p1, h = 5):
     global ex_tlist, mmap

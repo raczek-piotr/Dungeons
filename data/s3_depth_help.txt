@@ -1,23 +1,23 @@
 Monsters:
-        t - thief
-        hp ~ 15-25
-    attack ~ 4
-        xp ~ 5
+        v - veteran
+        hp ~ 14 - 24
+    attack ~ 5
+        xp ~ 6
 
         S - brown snake
-        hp ~ 9-13
-    attack ~ 10
-        xp ~ 7
+        hp ~ 14 - 18
+    attack ~ 13
+        xp ~ 13
 
         c - crab
-        hp ~ 32
-    attack ~ 5
-        xp ~ 10
+        hp ~ 24
+    attack ~ 10
+        xp ~ 15
 
         B - (Boss)
-        hp ~ 91
-    attack ~ 7
-        xp ~ 40
+        hp ~ 84
+    attack ~ 16
+        xp ~ 84
 
 
 

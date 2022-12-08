@@ -9,7 +9,7 @@ Monsters:
     attack ~ 3
 	xp ~ 2
 
-	B - Boss rat
+	B - Mutant rat (Boss)
 	hp ~ 34
     attack ~ 8
 	xp ~ 17

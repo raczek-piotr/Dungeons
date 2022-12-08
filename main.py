@@ -7,7 +7,7 @@ try:
 except:
     from msvcrt import getch
     enable_windows_stuff = True
-from random import randint
+from random import randint, choice
 
 from local_help import *
 from local import *
@@ -108,11 +108,11 @@ def attack_enemies(y, x, atak, chance = 60):
             echo = translate("YOU MISS") + " " + translate("A MONSTER")
 
 def wybierzpostac():
-    player_atributs = [60, 50, 20, 5, 0, 0, 1]
-    Baner = [[0, 0], 0, 8]
+    player_atributs = [60, 50, 20, 4, 0, 0, 8] # Human cityzant -PR-
+    Baner = [[0, 0], 0, 4]
     player_data = []
     Backpack = []
-    print("""                                DUNGEONS
+    print("""                                    DUNGEONS   			 H_version.0.1+
                                CHOOSE A CHARACTER
     0 - human
     1 - halfling
@@ -127,38 +127,32 @@ def wybierzpostac():
         2 - mage""")
         i = takein()
         if i == "1":
-            player_atributs = [60, 40, 16, 4, 2, 75, 4]
+            player_atributs = [60, 40, 15, 3, 2, 75, 7]
             player_data.append("Rogue")
             Backpack = ["KNIFE [03]", "SLING {02}"]
-            Baner[2] = 20
+            Baner[2] = 10
         elif i == "2":
-            player_atributs = [60, 40, 12, 3, 5, 50, 6]
+            player_atributs = [60, 40, 10, 2, 5, 50, 7]
             player_data.append("Mage")
             Backpack = ["KNIFE [03]"]
             Baner[2] = 0
         else:
-            player_atributs = [70, 40, 16, 4, 0, 0, 8]
+            player_atributs = [70, 40, 20, 4, 0, 0, 7]
             player_data.append("Warrior")
             Backpack = ["DAGGER [04]"]
     elif i == "2":
         player_data = ["Hobbit"]
         print("""
         0 - warrior
-        1 - rogue
-        2 - mage""")
+        1 - rogue""")
         i = takein()
         if i == "1":
-            player_atributs = [60, 30, 12, 3, 2, 75, 3]
+            player_atributs = [60, 30, 10, 2, 2, 75, 5]
             player_data.append("Rogue")
             Backpack = ["KNIFE [03]", "SLING {02}"]
-            Baner[2] = 20
-        elif i == "2":
-            player_atributs = [60, 30, 8, 2, 5, 50, 4]
-            player_data.append("Mage")
-            Backpack = ["KNIFE [03]"]
-            Baner[2] = 0
+            Baner[2] = 10
         else:
-            player_atributs = [70, 30, 12, 3, 0, 0, 5]
+            player_atributs = [70, 30, 15, 3, 0, 0, 5]
             player_data.append("Warrior")
             Backpack = ["DAGGER [04]"]
     else:
@@ -166,20 +160,26 @@ def wybierzpostac():
         print("""
         0 - warrior
         1 - rogue
-        2 - mage""")
+        2 - mage
+        3 - palladin""")
         i = takein()
         if i == "1":
-            player_atributs = [60, 50, 20, 5, 2, 75, 6]
+            player_atributs = [60, 50, 20, 4, 2, 75, 8]
             player_data.append("Rogue")
             Backpack = ["KNIFE [03]", "SLING {02}"]
-            Baner[2] = 20
+            Baner[2] = 10
         elif i == "2":
-            player_atributs = [60, 50, 16, 4, 5, 50, 8]
+            player_atributs = [60, 50, 15, 3, 5, 50, 8]
             player_data.append("Mage")
             Backpack = ["KNIFE [03]"]
             Baner[2] = 0
+        elif i == "3":
+            player_atributs = [60, 50, 30, 6, 0, 0, 8]
+            player_data.append("Palladin")
+            Backpack = ["DAGGER [04]"]
+            Baner[2] = 0
         else:
-            player_atributs = [70, 50, 20, 5, 0, 0, 10]
+            player_atributs = [70, 50, 25, 5, 0, 0, 8]
             player_data.append("Warrior")
             Backpack = ["DAGGER [04]"]
     Backpack.append("TORCH")
@@ -293,9 +293,7 @@ while True:
                         echo = "Wypiłeś "+ translate(i,1) + " i twoje rany się zagoiły:"
                     elif i == "TORCH":
                         pochodnia = 1
-                        pochotime = 200
-                        if player_data[1] == "Rogue":
-                            pochotime += 50
+                        pochotime = 250
                         echo = translate("YOU LIGHT A") + " " + translate(i,1) + ", " + translate("AND IT WILL GIVE YOU LIGHT FOR") + " " + str(pochotime) + " " + translate("TURNS")
                     else:
                         Backpack.append(i)
@@ -493,9 +491,11 @@ while True:
         
         for y in range(sizey):
             for x in range(sizex):
-                if (enemies_heads(vmap[y][x][0]) != "-" and
-                        enemies_heads(rmap[y][x][0]) != enemies_heads(vmap[y][x][0])):
-                        vmap[y][x] = rmap[y][x]
+                if (enemies_heads(vmap[y][x][0]) != "-"
+                    and rmap[y][x][-1] == " "):
+                        vmap[y][x] = rmap[y][x][4:]
+                        if vmap[y][x] == "":
+                            vmap[y][x] = " "
 
             # for y in range(-2, 3):
             #     for x in range(-2, 3):
@@ -525,29 +525,10 @@ while True:
             hp = mhp
         if hp <= 0:
             break
-i = pd + atak + zbroja + Baner[1] + 5 * len(Backpack) + mhp + 10 * (lw + depth)
+i = pd + atak + zbroja + Baner[1] + 5 * len(Backpack) + 10 * (lw + depth)
 with open(path+'Wyniki.pyg', 'a') as wynik:
-    wynik.write(str(i)+"|"+name+"|"+player_data[0]+" "+player_data[1]+"|"+str(time)+"|"+str(lw)+"|"+str(depth)+"|R|"+str(Backpack)+"\n")
+    wynik.write(str(i)+"|"+name+"|"+player_data[0]+" "+player_data[1]+"|"+str(time)+"|"+str(lw)+"|"+str(depth)+"|-|"+str(Backpack)+"\n")
 out()
+print(choice(["YOU SLOWLY CLOSED YOUR EYES", "YOU DIED", "YOU NEVER KNOW WHAT HAPPENED", "YOU THINK - OH NO, WHAT I HAVE DONE!"]))
 input(player_data[0]+" "+player_data[1]+" "+str(i)) + " time:" + str(time) + ":"
-input("""
-               _______________________
-              /                       \         ___
-             /                         \ ___   /   \      ___
-            /            RIP            \   \  :   :     /   \ 
-           /                             \  : _;, , , ;_    :   :
-          /                               \, ;_          _;, , , ;_
-         |               the               |   ___
-         |               YOU               |  /   \ 
-         |                                 |  :   :
-         |                                 | _;, , , ;_   ____
-         |            Level : n            |          /    \ 
-         |                                 |          :    :
-         |                                 |          :    :
-         |        Died on Level : k        |         _;, , , , ;_
-         |            killed by            |
-         |              Pycha              |
-         |                                 |
-        *|   *     *     *    *   *     *  | *
-________)/\\_)_/___(\/___(//_\)/_\//__\\(/_|_)_______""")
 printwynik(path)
