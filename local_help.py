@@ -27,8 +27,8 @@ Movement:
     7 8 9
     4 5 6   5 - wait or take item from the flor
     1 2 3
-    - - throw orantium
-    0 - ranged attack
+    - - throw orantium   u - use    s - sort (used turns = 0)
+    0 - ranged attack    d - drop   t - throw
         Don't forget about NumLock!
 Press enter to continue""" + "\n")
     input(help_echo[:-1]+"\n")

@@ -34,7 +34,7 @@ def printwynik(path):
                 wynik[t][5] += " "
             #        ---------------------------
         print("? Wynik:  Tury:   Lw: Po: Nazwa gracza:   Typ postaci:")
-        wynik = wynik[-23:]
-        for t in range(len(wynik)):
+        #wynik = wynik[-23:]
+        for t in range(len(wynik)-1, 0, -1):
             print(wynik[t][6] + " " + wynik[t][0] + " " + wynik[t][3] + " " + wynik[t][4] + " " + wynik[t][5] + " " + wynik[t][1][:15] + " " + wynik[t][2])
     getch()
