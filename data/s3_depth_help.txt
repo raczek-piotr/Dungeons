@@ -21,4 +21,4 @@ Monsters:
 
 
 
-help for depths 6 - 10
+help for depths 11 - 15
