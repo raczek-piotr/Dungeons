@@ -31,7 +31,7 @@ lang_PL = {
     "GOLD5": "ZŁOTYCH",
     }
 def translate(ang, number = 0):
-    lang = "PL"
+    lang = "EN"
     match lang:
         case "PL":
             return(l_pl(ang, number))
